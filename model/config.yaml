@@ -27,8 +27,8 @@ model:
   compute_eval_loss: false  # eval samples can be very long and exhaust memory. Disable computation of transducer loss during validation/testing with this flag.
 
   train_ds:
-    manifest_filepath: ???
-    sample_rate: ${model.sample_rate}
+    manifest_filepath: "datasets/train.json"
+    sample_rate: 16000
     batch_size: 16  # Can be increased if memory allows or when using smaller model
     trim_silence: false
     max_duration: 16.7
@@ -45,8 +45,8 @@ model:
     bucketing_strategy: "synced_randomized"
     bucketing_batch_size: null
   validation_ds:
-    manifest_filepath: ???
-    sample_rate: ${model.sample_rate}
+    manifest_filepath: "datasets/validation.json"
+    sample_rate: 16000
     batch_size: 8
     shuffle: false
     use_start_end_token: false
@@ -55,7 +55,7 @@ model:
 
   test_ds:
     manifest_filepath: null
-    sample_rate: ${model.sample_rate}
+    sample_rate: 16000
     batch_size: 8
     shuffle: false
     use_start_end_token: false
@@ -81,7 +81,7 @@ model:
 
   preprocessor:
     _target_: nemo.collections.asr.modules.AudioToMelSpectrogramPreprocessor
-    sample_rate: ${model.sample_rate}
+    sample_rate: 16000
     normalize: "per_feature"
     window_size: 0.025
     window_stride: 0.01
@@ -471,15 +471,15 @@ model:
       last_epoch: -1
 
 trainer:
-  gpus: 0 # number of gpus
-  max_epochs: 100
+  gpus: 1 # number of gpus
+  max_epochs: 1
   max_steps: null # computed at runtime if not set
   num_nodes: 1  # Should be set via SLURM variable `SLURM_JOB_NUM_NODES`
   accelerator: ddp
   accumulate_grad_batches: 1
   checkpoint_callback: false  # Provided by exp_manager
   logger: false  # Provided by exp_manager
-  log_every_n_steps: 100  # Interval of logging.
+  log_every_n_steps: 100  # Interval of logging
   val_check_interval: 1.0 # Set to 0.25 to check 4 times per epoch, or an int for number of iterations
   check_val_every_n_epoch: 1  # RNNT decoding is slower than CTC, so eval takes longer. Increase value to speed up training slightly.
   precision: 32  # RNNT requires a lot of memory, so precision 16 is very important. Use very small batch size for precision 32.

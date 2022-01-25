@@ -1,26 +1,25 @@
 import nemo
 import nemo.collections.asr as nemo_asr
 import pytorch_lightning as pl
-from ruamel_yaml import YAML
+import yaml
 from omegaconf import DictConfig
 
 
-config_path = 'model/config.yaml'
-yaml = YAML(typ='safe')
-with open(config_path) as f:
-    params = yaml.load(f)
+CONFIG_PATH = 'model/config.yaml'
 
-params['model']['train_ds']['manifest_filepath'] = train_manifest
-params['model']['validation_ds']['manifest_filepath'] = test_manifest
+with open(CONFIG_PATH) as f:
+    params = yaml.safe_load(f)
 
-model = nemo_asr.models.EncDecRNNTBPEModel.from_pretrained(model_name=config['name'])
-model.change_vocabulary(config['tokenizer']['dir'], config['tokenizer']['type'])
+model = nemo_asr.models.EncDecRNNTBPEModel.from_pretrained(model_name=params['name'])
+model.change_vocabulary(params['model']['tokenizer']['dir'], params['model']['tokenizer']['type'])
 
-model.setup_optimization(optim_config=params['model']['optim'])
 model.setup_training_data(train_data_config=params['model']['train_ds'])
 model.setup_validation_data(val_data_config=params['model']['validation_ds'])
+model.setup_optimization(optim_config=params['model']['optim'])
 
-trainer = pl.Trainer(gpus=1, max_epochs=1)
+trainer = pl.Trainer(**params['trainer'])
+
+print("\n========== Start FIT")
 trainer.fit(model)
 
 # p = '/home/jovyan/projet-ml/data/libri-dataset/dev-clean/1272/128104/1272-128104-0000.flac'
