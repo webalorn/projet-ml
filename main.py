@@ -1,5 +1,6 @@
 import nemo
 import nemo.collections.asr as nemo_asr
+from nemo.utils.exp_manager import exp_manager
 import torch.nn as nn
 import pytorch_lightning as pl
 import yaml
@@ -46,11 +47,12 @@ if FREEZE_ENCODER:
 
 trainer = pl.Trainer(**params['trainer'])
 
+exp_manager(trainer, params.get("exp_manager", None))
 print("\n========== Start FIT")
 trainer.fit(model)
 
 print("\n========== Done fitting")
-model.save_to(f"{params['name']}_fr_{DATE}.nemo")
+model.save_to(f"{params['name']}_fr_{FREEZE_ENCODER}_{UNFREEZE_SQUEEZE_EXCITATION}_{UNFREEZE_BATCH_NORM}_{DATE}.nemo")
 
 # p = '/home/jovyan/projet-ml/data/libri-dataset/dev-clean/1272/128104/1272-128104-0000.flac'
 # txt = model.transcribe([p])
