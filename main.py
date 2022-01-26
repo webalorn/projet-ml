@@ -28,17 +28,20 @@ model.setup_optimization(optim_config=params['model']['optim'])
 # Freeze the encoder: from https://colab.research.google.com/github/NVIDIA/NeMo/blob/stable/tutorials/asr/ASR_CTC_Language_Finetuning.ipynb
 def unfreeze_squeeze_excitation(m):
     if "SqueezeExcite" in type(m).__name__:
+        print("Unfreezing", m)
         m.train()
         for param in m.parameters():
             param.requires_grad_(True)
 
 def unfreeze_batch_norm(m):
     if type(m) == nn.BatchNorm1d:
+        print("Unfreezing", m)
         m.train()
         for param in m.parameters():
             param.requires_grad_(True)
 
 if FREEZE_ENCODER:
+    print("===== Freezing encoder")
     model.encoder.freeze()
     if UNFREEZE_SQUEEZE_EXCITATION:
         model.encoder.apply(unfreeze_squeeze_excitation)

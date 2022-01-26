@@ -503,5 +503,5 @@ exp_manager:
     name: null
     project: null
     entity: null
-  resume_if_exists: false
-  resume_ignore_no_checkpoint: false
+  resume_if_exists: true
+  resume_ignore_no_checkpoint: true
