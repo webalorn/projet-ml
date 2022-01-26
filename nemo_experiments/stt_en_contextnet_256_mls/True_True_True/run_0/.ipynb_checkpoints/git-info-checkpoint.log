@@ -1,0 +1,47 @@
+commit hash: 3b9af93d06b6a13fd03065a4bda0eb5dfebc9732
+diff --git a/main.py b/main.py
+index 5155c6c..eec334e 100644
+--- a/main.py
++++ b/main.py
+@@ -1,5 +1,6 @@
+ import nemo
+ import nemo.collections.asr as nemo_asr
++from nemo.utils.exp_manager import exp_manager
+ import torch.nn as nn
+ import pytorch_lightning as pl
+ import yaml
+@@ -17,11 +18,16 @@ CONFIG_PATH = 'model/config.yaml'
+ with open(CONFIG_PATH) as f:
+     params = yaml.safe_load(f)
+ 
++print("===== Loading pretrained model")
+ model = nemo_asr.models.EncDecRNNTBPEModel.from_pretrained(model_name=params['name'])
++print("===== Changing vocabulary")
+ model.change_vocabulary(params['model']['tokenizer']['dir'], params['model']['tokenizer']['type'])
+ 
++print("===== Setting up training data")
+ model.setup_training_data(train_data_config=params['model']['train_ds'])
++print("===== Setting up validation data")
+ model.setup_validation_data(val_data_config=params['model']['validation_ds'])
++print("===== Setting up optimization")
+ model.setup_optimization(optim_config=params['model']['optim'])
+ 
+ # Freeze the encoder: from https://colab.research.google.com/github/NVIDIA/NeMo/blob/stable/tutorials/asr/ASR_CTC_Language_Finetuning.ipynb
+@@ -44,13 +50,16 @@ if FREEZE_ENCODER:
+     if UNFREEZE_BATCH_NORM:
+         model.encoder.apply(unfreeze_batch_norm)
+ 
++print("===== Creating Trainer")
+ trainer = pl.Trainer(**params['trainer'])
+ 
++print("===== Setting up Experiment Manager")
++exp_manager(trainer, params.get("exp_manager", None))
+ print("\n========== Start FIT")
+ trainer.fit(model)
+ 
+ print("\n========== Done fitting")
+-model.save_to(f"{params['name']}_fr_{DATE}.nemo")
++model.save_to(f"{params['name']}_fr_{FREEZE_ENCODER}_{UNFREEZE_SQUEEZE_EXCITATION}_{UNFREEZE_BATCH_NORM}_{DATE}.nemo")
+ 
+ # p = '/home/jovyan/projet-ml/data/libri-dataset/dev-clean/1272/128104/1272-128104-0000.flac'
+ # txt = model.transcribe([p])

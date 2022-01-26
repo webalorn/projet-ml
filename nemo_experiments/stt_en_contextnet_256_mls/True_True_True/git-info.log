@@ -1,0 +1,13 @@
+commit hash: 07764c8d5e517a21d454f1261c73d4f3bcc2dcb3
+diff --git a/model/config.yaml b/model/config.yaml
+index 62357f4..61287ca 100644
+--- a/model/config.yaml
++++ b/model/config.yaml
+@@ -503,5 +503,5 @@ exp_manager:
+     name: null
+     project: null
+     entity: null
+-  resume_if_exists: false
++  resume_if_exists: true
+   resume_ignore_no_checkpoint: false
+\ No newline at end of file
