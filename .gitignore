@@ -1,1 +1,4 @@
 data/*
+nemo_experiments/*
+lightning_logs/*
+checkpoints/*

@@ -491,7 +491,7 @@ trainer:
 exp_manager:
   exp_dir: null
   name: *name
-  create_tensorboard_logger: true
+  create_tensorboard_logger: false
   create_checkpoint_callback: true
   checkpoint_callback_params:
     monitor: "val_wer"
@@ -505,3 +505,10 @@ exp_manager:
     entity: null
   resume_if_exists: false
   resume_ignore_no_checkpoint: false
+
+freeze:
+  encoder: true
+
+  unfreeze:
+    squeeze_excitation: true
+    batch_norm: true
