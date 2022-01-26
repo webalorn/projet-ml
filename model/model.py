@@ -10,20 +10,22 @@ def load_config(path=CONFIG_PATH):
     return yaml.safe_load(open(path))
 
 def load_model(params, args):
-    model = nemo_asr.models.EncDecRNNTBPEModel.from_pretrained(model_name=params['name'])
-    model.change_vocabulary(params['model']['tokenizer']['dir'], params['model']['tokenizer']['type'])
+    if args.model:
+        model = nemo_asr.models.EncDecRNNTBPEModel.restore_from(args.model)
+    else:
+        model = nemo_asr.models.EncDecRNNTBPEModel.from_pretrained(model_name=params['name'])
+        model.change_vocabulary(params['model']['tokenizer']['dir'], params['model']['tokenizer']['type'])
 
     model.setup_training_data(train_data_config=params['model']['train_ds'])
     model.setup_validation_data(val_data_config=params['model']['validation_ds'])
     model.setup_test_data(test_data_config=params['model']['test_ds'])
     model.setup_optimization(optim_config=params['model']['optim'])
-    model.cuda()
 
     # if args.checkpoint:
     #     model.load_from_checkpoint(args.checkpoint)
     #     params['exp_manager']['resume_if_exists'] = False
 
-    return model
+    return model.cuda()
 
 # Freeze the encoder: from https://colab.research.google.com/github/NVIDIA/NeMo/blob/stable/tutorials/asr/ASR_CTC_Language_Finetuning.ipynb
 def unfreeze_squeeze_excitation(m):
