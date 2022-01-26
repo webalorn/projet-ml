@@ -8,20 +8,6 @@ from nemo.utils.exp_manager import exp_manager
 
 from model.model import *
 
-# CUR_PATH = str(Path('.').absolute())
-# class NewAppState(nemo.utils.AppState):
-#     @property
-#     def nemo_file_folder(self) -> str:
-#         return CUR_PATH
-# nemo.utils.AppState = NewAppState
-
-# f0 = nemo.core.connectors.save_restore_connector.SaveRestoreConnector.register_artifact
-# def f1(s, model, config_path: str, src: str, verify_src_exists: bool = True):
-#     print("================================================= F1")
-#     print(config_path, src, verify_src_exists)
-#     f0(s, model, config_path, src, verify_src_exists)
-# nemo.core.connectors.save_restore_connector.SaveRestoreConnector.register_artifact = f1
-
 def train(args):
     start_time = datetime.strftime(datetime.now(), "%Y-%m-%d_%H-%M-%S")
     params = load_config()
@@ -78,7 +64,3 @@ if __name__ == "__main__":
         train(args)
     elif args.command == 'test':
         test(args)
-
-# p = '/home/jovyan/projet-ml/data/libri-dataset/dev-clean/1272/128104/1272-128104-0000.flac'
-# txt = model.transcribe([p])
-# print(txt)
