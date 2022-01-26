@@ -1,4 +1,4 @@
 data/*
-nemo_experiments/*
-lightning_logs/*
-checkpoints/*
+nemo_experiments
+lightning_logs
+__pycache__
