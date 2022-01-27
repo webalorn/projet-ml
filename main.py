@@ -1,62 +1,82 @@
-import nemo
-import nemo.collections.asr as nemo_asr
-from nemo.utils.exp_manager import exp_manager
-import torch.nn as nn
-import pytorch_lightning as pl
-import yaml
+
 from datetime import datetime
-from omegaconf import DictConfig
+from pathlib import Path
+import argparse
 
-FREEZE_ENCODER = True
-UNFREEZE_SQUEEZE_EXCITATION = True
-UNFREEZE_BATCH_NORM = True
+import pytorch_lightning as pl
+from nemo.utils.exp_manager import exp_manager
+import torch
 
-DATE = datetime.strftime(datetime.now(), "%Y-%m-%d_%H-%M-%S")
+from model.model import *
 
-CONFIG_PATH = 'model/config.yaml'
+def train(args):
+    start_time = datetime.strftime(datetime.now(), "%Y-%m-%d_%H-%M-%S")
+    params = load_config()
+    model = load_model(params, args)
+    trainer = pl.Trainer(**params['trainer'])
+    exp_manager(trainer, params.get("exp_manager", None))
+    freeze_model(model, params)
+    
+    print("\n========== Start FIT")
+    trainer.fit(model)
 
-with open(CONFIG_PATH) as f:
-    params = yaml.safe_load(f)
+    print("\n========== Done fitting")
+    Path('checkpoints').mkdir(exist_ok=True)
+    model.save_to(f"checkpoints/{params['name']}_fr_{params['freeze']['encoder']}_{params['freeze']['unfreeze']['squeeze_excitation']}_{params['freeze']['unfreeze']['batch_norm']}_{start_time}.nemo")
 
-model = nemo_asr.models.EncDecRNNTBPEModel.from_pretrained(model_name=params['name'])
-model.change_vocabulary(params['model']['tokenizer']['dir'], params['model']['tokenizer']['type'])
+def test(args):
+    assert args.model, "You should load a model (-m option)"
+    params = load_config()
+    model = load_model(params, args).eval()
 
-model.setup_training_data(train_data_config=params['model']['train_ds'])
-model.setup_validation_data(val_data_config=params['model']['validation_ds'])
-model.setup_optimization(optim_config=params['model']['optim'])
+    with torch.no_grad():
+        if args.audio:
+            predictions = model.transcribe(args.audio)
+            for pred, audio in zip(predictions[0], args.audio):
+                print(f"# Fichier {audio}")
+                print(pred)
+        else:
+            ds = get_dataloader(model, args.dataset_test)
+            ds_size = len(ds)
+            print()
+            wer_error = nemo.collections.asr.metrics.rnnt_wer_bpe.RNNTBPEWER(
+                decoding=model.decoding, log_prediction=False)
 
-# Freeze the encoder: from https://colab.research.google.com/github/NVIDIA/NeMo/blob/stable/tutorials/asr/ASR_CTC_Language_Finetuning.ipynb
-def unfreeze_squeeze_excitation(m):
-    if "SqueezeExcite" in type(m).__name__:
-        print("Unfreezing", m)
-        m.train()
-        for param in m.parameters():
-            param.requires_grad_(True)
+            for i_batch, test_batch in enumerate(ds):
+                print(f'\rBatch {i_batch+1}/{ds_size}', end=('\n' if args.verbose else ''))
+                targets = test_batch[2]
+                targets_lengths = test_batch[3]
+                encoded, encoded_len = model.forward(
+                    input_signal=test_batch[0].cuda(), input_signal_length=test_batch[1].cuda()
+                )
+                best_hyp, _ = model.decoding.rnnt_decoder_predictions_tensor(encoded, encoded_len)
 
-def unfreeze_batch_norm(m):
-    if type(m) == nn.BatchNorm1d:
-        print("Unfreezing", m)
-        m.train()
-        for param in m.parameters():
-            param.requires_grad_(True)
+                if args.verbose:
+                    for label_code, n, predicted in zip(targets, targets_lengths, best_hyp):
+                        label = model.decoding.decode_tokens_to_str(label_code.numpy()[:n])
+                        print("Label:", label)
+                        print('-> Predicted:', predicted)
 
-if FREEZE_ENCODER:
-    print("===== Freezing encoder")
-    model.encoder.freeze()
-    if UNFREEZE_SQUEEZE_EXCITATION:
-        model.encoder.apply(unfreeze_squeeze_excitation)
-    if UNFREEZE_BATCH_NORM:
-        model.encoder.apply(unfreeze_batch_norm)
+                wer_error(encoded, encoded_len, targets, targets_lengths)
+                del encoded, test_batch, best_hyp
 
-trainer = pl.Trainer(**params['trainer'])
+            wer = wer_error.compute()[0].item()
+            print(f"\n\nWER on test dataset: {wer*100:.2f}%")
 
-exp_manager(trainer, params.get("exp_manager", None))
-print("\n========== Start FIT")
-trainer.fit(model)
 
-print("\n========== Done fitting")
-model.save_to(f"{params['name']}_fr_{FREEZE_ENCODER}_{UNFREEZE_SQUEEZE_EXCITATION}_{UNFREEZE_BATCH_NORM}_{DATE}.nemo")
+def get_args():
+    parser = argparse.ArgumentParser(description='Process some integers.')
+    parser.add_argument('command', choices=['train', 'test'])
+    parser.add_argument('-m', '--model', help='Load a model (.nemo)')
+    parser.add_argument('-a', '--audio', nargs='+', default=[], help='Audio files that will be transcribed (test command)')
+    parser.add_argument('-v', '--verbose', action='store_true')
+    parser.add_argument('-dt', '--dataset_test', choices=['train', 'val', 'test'], help='Dataset used with the set command', default='test')
 
-# p = '/home/jovyan/projet-ml/data/libri-dataset/dev-clean/1272/128104/1272-128104-0000.flac'
-# txt = model.transcribe([p])
-# print(txt)
+    return parser.parse_args()
+ 
+if __name__ == "__main__":
+    args = get_args()
+    if args.command == 'train':
+        train(args)
+    elif args.command == 'test':
+        test(args)

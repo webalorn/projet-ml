@@ -54,7 +54,7 @@ model:
     pin_memory: true
 
   test_ds:
-    manifest_filepath: null
+    manifest_filepath: "datasets/test.json"
     sample_rate: 16000
     batch_size: 8
     shuffle: false
@@ -472,7 +472,7 @@ model:
 
 trainer:
   gpus: 1 # number of gpus
-  max_epochs: 20
+  max_epochs: 30
   max_steps: null # computed at runtime if not set
   num_nodes: 1  # Should be set via SLURM variable `SLURM_JOB_NUM_NODES`
   accelerator: ddp
@@ -491,7 +491,7 @@ trainer:
 exp_manager:
   exp_dir: null
   name: *name
-  create_tensorboard_logger: true
+  create_tensorboard_logger: false
   create_checkpoint_callback: true
   checkpoint_callback_params:
     monitor: "val_wer"
@@ -505,3 +505,11 @@ exp_manager:
     entity: null
   resume_if_exists: true
   resume_ignore_no_checkpoint: true
+
+freeze:
+  encoder: true
+
+  unfreeze:
+    squeeze_excitation: true
+    batch_norm: true
+    encoder_blocks: 5
