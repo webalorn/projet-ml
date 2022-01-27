@@ -28,20 +28,31 @@ def load_model(params, args):
 
     return model.cuda()
 
+def get_dataloader(model, dataset):
+    if dataset == 'train':
+        return model.train_dataloader()
+    elif dataset == 'test':
+        return model.test_dataloader()
+    elif dataset == 'val':
+        return model.val_dataloader()
+    assert False
+
 # Freeze the encoder: from https://colab.research.google.com/github/NVIDIA/NeMo/blob/stable/tutorials/asr/ASR_CTC_Language_Finetuning.ipynb
+def _apply_unfreeze(m):
+    print("Unfreezing", m)
+    m.train()
+    for param in m.parameters():
+        param.requires_grad_(True)
+
 def unfreeze_squeeze_excitation(m):
     if "SqueezeExcite" in type(m).__name__:
-        print("Unfreezing", m)
-        m.train()
-        for param in m.parameters():
-            param.requires_grad_(True)
+        _apply_unfreeze(m)
 
 def unfreeze_batch_norm(m):
     if type(m) == nn.BatchNorm1d:
-        print("Unfreezing", m)
-        m.train()
-        for param in m.parameters():
-            param.requires_grad_(True)
+        _apply_unfreeze(m)
+
+# def unfreeze_last_
 
 def freeze_model(model, params):
     if params['freeze']['encoder']:
@@ -52,3 +63,8 @@ def freeze_model(model, params):
             model.encoder.apply(unfreeze_squeeze_excitation)
         if params['freeze']['unfreeze']['batch_norm']:
             model.encoder.apply(unfreeze_batch_norm)
+        
+        unfreeze_blocks = params['freeze']['unfreeze']['encoder_blocks']
+        last_block = len(model.encoder.encoder)-1
+        for k in range(last_block, last_block-unfreeze_blocks, -1):
+            _apply_unfreeze(model.encoder.encoder[k])

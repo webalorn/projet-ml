@@ -1,0 +1,1513 @@
+EncDecRNNTBPEModel(
+  (preprocessor): AudioToMelSpectrogramPreprocessor(
+    (featurizer): FilterbankFeatures()
+  )
+  (encoder): ConvASREncoder(
+    (encoder): Sequential(
+      (0): JasperBlock(
+        (mconv): ModuleList(
+          (0): MaskedConv1d(
+            (conv): Conv1d(80, 80, kernel_size=(5,), stride=(1,), padding=(2,), groups=80, bias=False)
+          )
+          (1): MaskedConv1d(
+            (conv): Conv1d(80, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (2): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (3): SqueezeExcite(
+            (pool): AdaptiveAvgPool1d(output_size=1)
+            (fc): Sequential(
+              (0): Linear(in_features=256, out_features=32, bias=False)
+              (1): Swish(inplace=True)
+              (2): Linear(in_features=32, out_features=256, bias=False)
+            )
+            (gap): AdaptiveAvgPool1d(output_size=1)
+          )
+        )
+        (mout): Sequential(
+          (0): Swish(inplace=True)
+          (1): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (1): JasperBlock(
+        (mconv): ModuleList(
+          (0): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (1): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (2): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (3): Swish(inplace=True)
+          (4): Dropout(p=0.1, inplace=False)
+          (5): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (6): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (7): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (8): Swish(inplace=True)
+          (9): Dropout(p=0.1, inplace=False)
+          (10): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (11): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (12): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (13): Swish(inplace=True)
+          (14): Dropout(p=0.1, inplace=False)
+          (15): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (16): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (17): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (18): Swish(inplace=True)
+          (19): Dropout(p=0.1, inplace=False)
+          (20): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (21): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (22): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (23): SqueezeExcite(
+            (pool): AdaptiveAvgPool1d(output_size=1)
+            (fc): Sequential(
+              (0): Linear(in_features=256, out_features=32, bias=False)
+              (1): Swish(inplace=True)
+              (2): Linear(in_features=32, out_features=256, bias=False)
+            )
+            (gap): AdaptiveAvgPool1d(output_size=1)
+          )
+        )
+        (res): ModuleList(
+          (0): ModuleList(
+            (0): MaskedConv1d(
+              (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+            )
+            (1): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (mout): Sequential(
+          (0): Swish(inplace=True)
+          (1): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (2): JasperBlock(
+        (mconv): ModuleList(
+          (0): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (1): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (2): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (3): Swish(inplace=True)
+          (4): Dropout(p=0.1, inplace=False)
+          (5): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (6): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (7): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (8): Swish(inplace=True)
+          (9): Dropout(p=0.1, inplace=False)
+          (10): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (11): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (12): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (13): Swish(inplace=True)
+          (14): Dropout(p=0.1, inplace=False)
+          (15): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (16): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (17): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (18): Swish(inplace=True)
+          (19): Dropout(p=0.1, inplace=False)
+          (20): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (21): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (22): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (23): SqueezeExcite(
+            (pool): AdaptiveAvgPool1d(output_size=1)
+            (fc): Sequential(
+              (0): Linear(in_features=256, out_features=32, bias=False)
+              (1): Swish(inplace=True)
+              (2): Linear(in_features=32, out_features=256, bias=False)
+            )
+            (gap): AdaptiveAvgPool1d(output_size=1)
+          )
+        )
+        (res): ModuleList(
+          (0): ModuleList(
+            (0): MaskedConv1d(
+              (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+            )
+            (1): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (mout): Sequential(
+          (0): Swish(inplace=True)
+          (1): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (3): JasperBlock(
+        (mconv): ModuleList(
+          (0): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (1): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (2): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (3): Swish(inplace=True)
+          (4): Dropout(p=0.1, inplace=False)
+          (5): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (6): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (7): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (8): Swish(inplace=True)
+          (9): Dropout(p=0.1, inplace=False)
+          (10): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (11): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (12): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (13): Swish(inplace=True)
+          (14): Dropout(p=0.1, inplace=False)
+          (15): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (16): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (17): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (18): Swish(inplace=True)
+          (19): Dropout(p=0.1, inplace=False)
+          (20): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(2,), padding=(2,), groups=256, bias=False)
+          )
+          (21): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (22): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (23): SqueezeExcite(
+            (pool): AdaptiveAvgPool1d(output_size=1)
+            (fc): Sequential(
+              (0): Linear(in_features=256, out_features=32, bias=False)
+              (1): Swish(inplace=True)
+              (2): Linear(in_features=32, out_features=256, bias=False)
+            )
+            (gap): AdaptiveAvgPool1d(output_size=1)
+          )
+        )
+        (res): ModuleList(
+          (0): ModuleList(
+            (0): MaskedConv1d(
+              (conv): Conv1d(256, 256, kernel_size=(1,), stride=(2,), bias=False)
+            )
+            (1): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (mout): Sequential(
+          (0): Swish(inplace=True)
+          (1): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (4): JasperBlock(
+        (mconv): ModuleList(
+          (0): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (1): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (2): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (3): Swish(inplace=True)
+          (4): Dropout(p=0.1, inplace=False)
+          (5): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (6): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (7): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (8): Swish(inplace=True)
+          (9): Dropout(p=0.1, inplace=False)
+          (10): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (11): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (12): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (13): Swish(inplace=True)
+          (14): Dropout(p=0.1, inplace=False)
+          (15): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (16): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (17): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (18): Swish(inplace=True)
+          (19): Dropout(p=0.1, inplace=False)
+          (20): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (21): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (22): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (23): SqueezeExcite(
+            (pool): AdaptiveAvgPool1d(output_size=1)
+            (fc): Sequential(
+              (0): Linear(in_features=256, out_features=32, bias=False)
+              (1): Swish(inplace=True)
+              (2): Linear(in_features=32, out_features=256, bias=False)
+            )
+            (gap): AdaptiveAvgPool1d(output_size=1)
+          )
+        )
+        (res): ModuleList(
+          (0): ModuleList(
+            (0): MaskedConv1d(
+              (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+            )
+            (1): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (mout): Sequential(
+          (0): Swish(inplace=True)
+          (1): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (5): JasperBlock(
+        (mconv): ModuleList(
+          (0): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (1): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (2): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (3): Swish(inplace=True)
+          (4): Dropout(p=0.1, inplace=False)
+          (5): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (6): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (7): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (8): Swish(inplace=True)
+          (9): Dropout(p=0.1, inplace=False)
+          (10): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (11): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (12): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (13): Swish(inplace=True)
+          (14): Dropout(p=0.1, inplace=False)
+          (15): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (16): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (17): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (18): Swish(inplace=True)
+          (19): Dropout(p=0.1, inplace=False)
+          (20): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (21): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (22): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (23): SqueezeExcite(
+            (pool): AdaptiveAvgPool1d(output_size=1)
+            (fc): Sequential(
+              (0): Linear(in_features=256, out_features=32, bias=False)
+              (1): Swish(inplace=True)
+              (2): Linear(in_features=32, out_features=256, bias=False)
+            )
+            (gap): AdaptiveAvgPool1d(output_size=1)
+          )
+        )
+        (res): ModuleList(
+          (0): ModuleList(
+            (0): MaskedConv1d(
+              (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+            )
+            (1): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (mout): Sequential(
+          (0): Swish(inplace=True)
+          (1): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (6): JasperBlock(
+        (mconv): ModuleList(
+          (0): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (1): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (2): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (3): Swish(inplace=True)
+          (4): Dropout(p=0.1, inplace=False)
+          (5): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (6): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (7): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (8): Swish(inplace=True)
+          (9): Dropout(p=0.1, inplace=False)
+          (10): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (11): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (12): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (13): Swish(inplace=True)
+          (14): Dropout(p=0.1, inplace=False)
+          (15): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (16): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (17): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (18): Swish(inplace=True)
+          (19): Dropout(p=0.1, inplace=False)
+          (20): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (21): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (22): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (23): SqueezeExcite(
+            (pool): AdaptiveAvgPool1d(output_size=1)
+            (fc): Sequential(
+              (0): Linear(in_features=256, out_features=32, bias=False)
+              (1): Swish(inplace=True)
+              (2): Linear(in_features=32, out_features=256, bias=False)
+            )
+            (gap): AdaptiveAvgPool1d(output_size=1)
+          )
+        )
+        (res): ModuleList(
+          (0): ModuleList(
+            (0): MaskedConv1d(
+              (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+            )
+            (1): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (mout): Sequential(
+          (0): Swish(inplace=True)
+          (1): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (7): JasperBlock(
+        (mconv): ModuleList(
+          (0): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (1): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (2): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (3): Swish(inplace=True)
+          (4): Dropout(p=0.1, inplace=False)
+          (5): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (6): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (7): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (8): Swish(inplace=True)
+          (9): Dropout(p=0.1, inplace=False)
+          (10): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (11): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (12): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (13): Swish(inplace=True)
+          (14): Dropout(p=0.1, inplace=False)
+          (15): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (16): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (17): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (18): Swish(inplace=True)
+          (19): Dropout(p=0.1, inplace=False)
+          (20): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(2,), padding=(2,), groups=256, bias=False)
+          )
+          (21): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (22): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (23): SqueezeExcite(
+            (pool): AdaptiveAvgPool1d(output_size=1)
+            (fc): Sequential(
+              (0): Linear(in_features=256, out_features=32, bias=False)
+              (1): Swish(inplace=True)
+              (2): Linear(in_features=32, out_features=256, bias=False)
+            )
+            (gap): AdaptiveAvgPool1d(output_size=1)
+          )
+        )
+        (res): ModuleList(
+          (0): ModuleList(
+            (0): MaskedConv1d(
+              (conv): Conv1d(256, 256, kernel_size=(1,), stride=(2,), bias=False)
+            )
+            (1): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (mout): Sequential(
+          (0): Swish(inplace=True)
+          (1): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (8): JasperBlock(
+        (mconv): ModuleList(
+          (0): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (1): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (2): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (3): Swish(inplace=True)
+          (4): Dropout(p=0.1, inplace=False)
+          (5): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (6): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (7): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (8): Swish(inplace=True)
+          (9): Dropout(p=0.1, inplace=False)
+          (10): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (11): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (12): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (13): Swish(inplace=True)
+          (14): Dropout(p=0.1, inplace=False)
+          (15): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (16): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (17): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (18): Swish(inplace=True)
+          (19): Dropout(p=0.1, inplace=False)
+          (20): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (21): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (22): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (23): SqueezeExcite(
+            (pool): AdaptiveAvgPool1d(output_size=1)
+            (fc): Sequential(
+              (0): Linear(in_features=256, out_features=32, bias=False)
+              (1): Swish(inplace=True)
+              (2): Linear(in_features=32, out_features=256, bias=False)
+            )
+            (gap): AdaptiveAvgPool1d(output_size=1)
+          )
+        )
+        (res): ModuleList(
+          (0): ModuleList(
+            (0): MaskedConv1d(
+              (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+            )
+            (1): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (mout): Sequential(
+          (0): Swish(inplace=True)
+          (1): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (9): JasperBlock(
+        (mconv): ModuleList(
+          (0): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (1): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (2): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (3): Swish(inplace=True)
+          (4): Dropout(p=0.1, inplace=False)
+          (5): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (6): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (7): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (8): Swish(inplace=True)
+          (9): Dropout(p=0.1, inplace=False)
+          (10): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (11): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (12): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (13): Swish(inplace=True)
+          (14): Dropout(p=0.1, inplace=False)
+          (15): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (16): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (17): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (18): Swish(inplace=True)
+          (19): Dropout(p=0.1, inplace=False)
+          (20): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (21): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (22): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (23): SqueezeExcite(
+            (pool): AdaptiveAvgPool1d(output_size=1)
+            (fc): Sequential(
+              (0): Linear(in_features=256, out_features=32, bias=False)
+              (1): Swish(inplace=True)
+              (2): Linear(in_features=32, out_features=256, bias=False)
+            )
+            (gap): AdaptiveAvgPool1d(output_size=1)
+          )
+        )
+        (res): ModuleList(
+          (0): ModuleList(
+            (0): MaskedConv1d(
+              (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+            )
+            (1): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (mout): Sequential(
+          (0): Swish(inplace=True)
+          (1): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (10): JasperBlock(
+        (mconv): ModuleList(
+          (0): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (1): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (2): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (3): Swish(inplace=True)
+          (4): Dropout(p=0.1, inplace=False)
+          (5): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (6): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (7): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (8): Swish(inplace=True)
+          (9): Dropout(p=0.1, inplace=False)
+          (10): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (11): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (12): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (13): Swish(inplace=True)
+          (14): Dropout(p=0.1, inplace=False)
+          (15): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (16): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (17): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (18): Swish(inplace=True)
+          (19): Dropout(p=0.1, inplace=False)
+          (20): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (21): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (22): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (23): SqueezeExcite(
+            (pool): AdaptiveAvgPool1d(output_size=1)
+            (fc): Sequential(
+              (0): Linear(in_features=256, out_features=32, bias=False)
+              (1): Swish(inplace=True)
+              (2): Linear(in_features=32, out_features=256, bias=False)
+            )
+            (gap): AdaptiveAvgPool1d(output_size=1)
+          )
+        )
+        (res): ModuleList(
+          (0): ModuleList(
+            (0): MaskedConv1d(
+              (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+            )
+            (1): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (mout): Sequential(
+          (0): Swish(inplace=True)
+          (1): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (11): JasperBlock(
+        (mconv): ModuleList(
+          (0): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (1): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (2): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (3): Swish(inplace=True)
+          (4): Dropout(p=0.1, inplace=False)
+          (5): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (6): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (7): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (8): Swish(inplace=True)
+          (9): Dropout(p=0.1, inplace=False)
+          (10): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (11): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (12): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (13): Swish(inplace=True)
+          (14): Dropout(p=0.1, inplace=False)
+          (15): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (16): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (17): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (18): Swish(inplace=True)
+          (19): Dropout(p=0.1, inplace=False)
+          (20): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (21): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (22): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (23): SqueezeExcite(
+            (pool): AdaptiveAvgPool1d(output_size=1)
+            (fc): Sequential(
+              (0): Linear(in_features=256, out_features=32, bias=False)
+              (1): Swish(inplace=True)
+              (2): Linear(in_features=32, out_features=256, bias=False)
+            )
+            (gap): AdaptiveAvgPool1d(output_size=1)
+          )
+        )
+        (res): ModuleList(
+          (0): ModuleList(
+            (0): MaskedConv1d(
+              (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+            )
+            (1): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (mout): Sequential(
+          (0): Swish(inplace=True)
+          (1): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (12): JasperBlock(
+        (mconv): ModuleList(
+          (0): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (1): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (2): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (3): Swish(inplace=True)
+          (4): Dropout(p=0.1, inplace=False)
+          (5): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (6): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (7): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (8): Swish(inplace=True)
+          (9): Dropout(p=0.1, inplace=False)
+          (10): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (11): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (12): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (13): Swish(inplace=True)
+          (14): Dropout(p=0.1, inplace=False)
+          (15): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (16): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (17): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (18): Swish(inplace=True)
+          (19): Dropout(p=0.1, inplace=False)
+          (20): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (21): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (22): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (23): SqueezeExcite(
+            (pool): AdaptiveAvgPool1d(output_size=1)
+            (fc): Sequential(
+              (0): Linear(in_features=256, out_features=32, bias=False)
+              (1): Swish(inplace=True)
+              (2): Linear(in_features=32, out_features=256, bias=False)
+            )
+            (gap): AdaptiveAvgPool1d(output_size=1)
+          )
+        )
+        (res): ModuleList(
+          (0): ModuleList(
+            (0): MaskedConv1d(
+              (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+            )
+            (1): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (mout): Sequential(
+          (0): Swish(inplace=True)
+          (1): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (13): JasperBlock(
+        (mconv): ModuleList(
+          (0): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (1): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (2): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (3): Swish(inplace=True)
+          (4): Dropout(p=0.1, inplace=False)
+          (5): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (6): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (7): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (8): Swish(inplace=True)
+          (9): Dropout(p=0.1, inplace=False)
+          (10): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (11): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (12): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (13): Swish(inplace=True)
+          (14): Dropout(p=0.1, inplace=False)
+          (15): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (16): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (17): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (18): Swish(inplace=True)
+          (19): Dropout(p=0.1, inplace=False)
+          (20): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (21): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (22): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (23): SqueezeExcite(
+            (pool): AdaptiveAvgPool1d(output_size=1)
+            (fc): Sequential(
+              (0): Linear(in_features=256, out_features=32, bias=False)
+              (1): Swish(inplace=True)
+              (2): Linear(in_features=32, out_features=256, bias=False)
+            )
+            (gap): AdaptiveAvgPool1d(output_size=1)
+          )
+        )
+        (res): ModuleList(
+          (0): ModuleList(
+            (0): MaskedConv1d(
+              (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+            )
+            (1): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (mout): Sequential(
+          (0): Swish(inplace=True)
+          (1): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (14): JasperBlock(
+        (mconv): ModuleList(
+          (0): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (1): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (2): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (3): Swish(inplace=True)
+          (4): Dropout(p=0.1, inplace=False)
+          (5): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (6): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (7): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (8): Swish(inplace=True)
+          (9): Dropout(p=0.1, inplace=False)
+          (10): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (11): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (12): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (13): Swish(inplace=True)
+          (14): Dropout(p=0.1, inplace=False)
+          (15): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (16): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (17): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (18): Swish(inplace=True)
+          (19): Dropout(p=0.1, inplace=False)
+          (20): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(2,), padding=(2,), groups=256, bias=False)
+          )
+          (21): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (22): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (23): SqueezeExcite(
+            (pool): AdaptiveAvgPool1d(output_size=1)
+            (fc): Sequential(
+              (0): Linear(in_features=256, out_features=32, bias=False)
+              (1): Swish(inplace=True)
+              (2): Linear(in_features=32, out_features=256, bias=False)
+            )
+            (gap): AdaptiveAvgPool1d(output_size=1)
+          )
+        )
+        (res): ModuleList(
+          (0): ModuleList(
+            (0): MaskedConv1d(
+              (conv): Conv1d(256, 256, kernel_size=(1,), stride=(2,), bias=False)
+            )
+            (1): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (mout): Sequential(
+          (0): Swish(inplace=True)
+          (1): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (15): JasperBlock(
+        (mconv): ModuleList(
+          (0): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (1): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (2): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (3): Swish(inplace=True)
+          (4): Dropout(p=0.1, inplace=False)
+          (5): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (6): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (7): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (8): Swish(inplace=True)
+          (9): Dropout(p=0.1, inplace=False)
+          (10): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (11): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (12): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (13): Swish(inplace=True)
+          (14): Dropout(p=0.1, inplace=False)
+          (15): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (16): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (17): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (18): Swish(inplace=True)
+          (19): Dropout(p=0.1, inplace=False)
+          (20): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (21): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (22): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (23): SqueezeExcite(
+            (pool): AdaptiveAvgPool1d(output_size=1)
+            (fc): Sequential(
+              (0): Linear(in_features=256, out_features=32, bias=False)
+              (1): Swish(inplace=True)
+              (2): Linear(in_features=32, out_features=256, bias=False)
+            )
+            (gap): AdaptiveAvgPool1d(output_size=1)
+          )
+        )
+        (res): ModuleList(
+          (0): ModuleList(
+            (0): MaskedConv1d(
+              (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+            )
+            (1): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (mout): Sequential(
+          (0): Swish(inplace=True)
+          (1): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (16): JasperBlock(
+        (mconv): ModuleList(
+          (0): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (1): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (2): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (3): Swish(inplace=True)
+          (4): Dropout(p=0.1, inplace=False)
+          (5): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (6): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (7): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (8): Swish(inplace=True)
+          (9): Dropout(p=0.1, inplace=False)
+          (10): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (11): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (12): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (13): Swish(inplace=True)
+          (14): Dropout(p=0.1, inplace=False)
+          (15): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (16): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (17): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (18): Swish(inplace=True)
+          (19): Dropout(p=0.1, inplace=False)
+          (20): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (21): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (22): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (23): SqueezeExcite(
+            (pool): AdaptiveAvgPool1d(output_size=1)
+            (fc): Sequential(
+              (0): Linear(in_features=256, out_features=32, bias=False)
+              (1): Swish(inplace=True)
+              (2): Linear(in_features=32, out_features=256, bias=False)
+            )
+            (gap): AdaptiveAvgPool1d(output_size=1)
+          )
+        )
+        (res): ModuleList(
+          (0): ModuleList(
+            (0): MaskedConv1d(
+              (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+            )
+            (1): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (mout): Sequential(
+          (0): Swish(inplace=True)
+          (1): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (17): JasperBlock(
+        (mconv): ModuleList(
+          (0): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (1): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (2): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (3): Swish(inplace=True)
+          (4): Dropout(p=0.1, inplace=False)
+          (5): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (6): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (7): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (8): Swish(inplace=True)
+          (9): Dropout(p=0.1, inplace=False)
+          (10): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (11): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (12): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (13): Swish(inplace=True)
+          (14): Dropout(p=0.1, inplace=False)
+          (15): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (16): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (17): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (18): Swish(inplace=True)
+          (19): Dropout(p=0.1, inplace=False)
+          (20): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (21): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (22): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (23): SqueezeExcite(
+            (pool): AdaptiveAvgPool1d(output_size=1)
+            (fc): Sequential(
+              (0): Linear(in_features=256, out_features=32, bias=False)
+              (1): Swish(inplace=True)
+              (2): Linear(in_features=32, out_features=256, bias=False)
+            )
+            (gap): AdaptiveAvgPool1d(output_size=1)
+          )
+        )
+        (res): ModuleList(
+          (0): ModuleList(
+            (0): MaskedConv1d(
+              (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+            )
+            (1): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (mout): Sequential(
+          (0): Swish(inplace=True)
+          (1): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (18): JasperBlock(
+        (mconv): ModuleList(
+          (0): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (1): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (2): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (3): Swish(inplace=True)
+          (4): Dropout(p=0.1, inplace=False)
+          (5): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (6): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (7): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (8): Swish(inplace=True)
+          (9): Dropout(p=0.1, inplace=False)
+          (10): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (11): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (12): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (13): Swish(inplace=True)
+          (14): Dropout(p=0.1, inplace=False)
+          (15): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (16): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (17): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (18): Swish(inplace=True)
+          (19): Dropout(p=0.1, inplace=False)
+          (20): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (21): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (22): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (23): SqueezeExcite(
+            (pool): AdaptiveAvgPool1d(output_size=1)
+            (fc): Sequential(
+              (0): Linear(in_features=256, out_features=32, bias=False)
+              (1): Swish(inplace=True)
+              (2): Linear(in_features=32, out_features=256, bias=False)
+            )
+            (gap): AdaptiveAvgPool1d(output_size=1)
+          )
+        )
+        (res): ModuleList(
+          (0): ModuleList(
+            (0): MaskedConv1d(
+              (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+            )
+            (1): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (mout): Sequential(
+          (0): Swish(inplace=True)
+          (1): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (19): JasperBlock(
+        (mconv): ModuleList(
+          (0): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (1): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (2): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (3): Swish(inplace=True)
+          (4): Dropout(p=0.1, inplace=False)
+          (5): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (6): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (7): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (8): Swish(inplace=True)
+          (9): Dropout(p=0.1, inplace=False)
+          (10): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (11): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (12): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (13): Swish(inplace=True)
+          (14): Dropout(p=0.1, inplace=False)
+          (15): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (16): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (17): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (18): Swish(inplace=True)
+          (19): Dropout(p=0.1, inplace=False)
+          (20): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (21): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (22): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (23): SqueezeExcite(
+            (pool): AdaptiveAvgPool1d(output_size=1)
+            (fc): Sequential(
+              (0): Linear(in_features=256, out_features=32, bias=False)
+              (1): Swish(inplace=True)
+              (2): Linear(in_features=32, out_features=256, bias=False)
+            )
+            (gap): AdaptiveAvgPool1d(output_size=1)
+          )
+        )
+        (res): ModuleList(
+          (0): ModuleList(
+            (0): MaskedConv1d(
+              (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+            )
+            (1): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (mout): Sequential(
+          (0): Swish(inplace=True)
+          (1): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (20): JasperBlock(
+        (mconv): ModuleList(
+          (0): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (1): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (2): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (3): Swish(inplace=True)
+          (4): Dropout(p=0.1, inplace=False)
+          (5): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (6): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (7): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (8): Swish(inplace=True)
+          (9): Dropout(p=0.1, inplace=False)
+          (10): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (11): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (12): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (13): Swish(inplace=True)
+          (14): Dropout(p=0.1, inplace=False)
+          (15): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (16): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (17): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (18): Swish(inplace=True)
+          (19): Dropout(p=0.1, inplace=False)
+          (20): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (21): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (22): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (23): SqueezeExcite(
+            (pool): AdaptiveAvgPool1d(output_size=1)
+            (fc): Sequential(
+              (0): Linear(in_features=256, out_features=32, bias=False)
+              (1): Swish(inplace=True)
+              (2): Linear(in_features=32, out_features=256, bias=False)
+            )
+            (gap): AdaptiveAvgPool1d(output_size=1)
+          )
+        )
+        (res): ModuleList(
+          (0): ModuleList(
+            (0): MaskedConv1d(
+              (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+            )
+            (1): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (mout): Sequential(
+          (0): Swish(inplace=True)
+          (1): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (21): JasperBlock(
+        (mconv): ModuleList(
+          (0): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (1): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (2): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (3): Swish(inplace=True)
+          (4): Dropout(p=0.1, inplace=False)
+          (5): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (6): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (7): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (8): Swish(inplace=True)
+          (9): Dropout(p=0.1, inplace=False)
+          (10): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (11): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (12): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (13): Swish(inplace=True)
+          (14): Dropout(p=0.1, inplace=False)
+          (15): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (16): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (17): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (18): Swish(inplace=True)
+          (19): Dropout(p=0.1, inplace=False)
+          (20): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (21): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (22): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (23): SqueezeExcite(
+            (pool): AdaptiveAvgPool1d(output_size=1)
+            (fc): Sequential(
+              (0): Linear(in_features=256, out_features=32, bias=False)
+              (1): Swish(inplace=True)
+              (2): Linear(in_features=32, out_features=256, bias=False)
+            )
+            (gap): AdaptiveAvgPool1d(output_size=1)
+          )
+        )
+        (res): ModuleList(
+          (0): ModuleList(
+            (0): MaskedConv1d(
+              (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+            )
+            (1): BatchNorm1d(256, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (mout): Sequential(
+          (0): Swish(inplace=True)
+          (1): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (22): JasperBlock(
+        (mconv): ModuleList(
+          (0): MaskedConv1d(
+            (conv): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), groups=256, bias=False)
+          )
+          (1): MaskedConv1d(
+            (conv): Conv1d(256, 640, kernel_size=(1,), stride=(1,), bias=False)
+          )
+          (2): BatchNorm1d(640, eps=0.001, momentum=0.1, affine=True, track_running_stats=True)
+          (3): SqueezeExcite(
+            (pool): AdaptiveAvgPool1d(output_size=1)
+            (fc): Sequential(
+              (0): Linear(in_features=640, out_features=80, bias=False)
+              (1): Swish(inplace=True)
+              (2): Linear(in_features=80, out_features=640, bias=False)
+            )
+            (gap): AdaptiveAvgPool1d(output_size=1)
+          )
+        )
+        (mout): Sequential(
+          (0): Swish(inplace=True)
+          (1): Dropout(p=0.0, inplace=False)
+        )
+      )
+    )
+  )
+  (spec_augmentation): SpectrogramAugmentation(
+    (spec_augment): SpecAugment()
+  )
+  (wer): RNNTBPEWER()
+  (joint): RNNTJoint(
+    (pred): Linear(in_features=640, out_features=640, bias=True)
+    (enc): Linear(in_features=640, out_features=640, bias=True)
+    (joint_net): Sequential(
+      (0): ReLU(inplace=True)
+      (1): Dropout(p=0.1, inplace=False)
+      (2): Linear(in_features=640, out_features=1025, bias=True)
+    )
+    (_loss): RNNTLoss(
+      (_loss): RNNTLossNumba()
+    )
+    (_wer): RNNTBPEWER()
+  )
+  (decoder): RNNTDecoder(
+    (prediction): ModuleDict(
+      (embed): Embedding(1025, 640, padding_idx=1024)
+      (dec_rnn): LSTMDropout(
+        (lstm): LSTM(640, 640)
+      )
+    )
+  )
+  (loss): RNNTLoss(
+    (_loss): RNNTLossNumba()
+  )
+)
