@@ -22,10 +22,6 @@ def load_model(params, args):
     model.setup_test_data(test_data_config=params['model']['test_ds'])
     model.setup_optimization(optim_config=params['model']['optim'])
 
-    # if args.checkpoint:
-    #     model.load_from_checkpoint(args.checkpoint)
-    #     params['exp_manager']['resume_if_exists'] = False
-
     return model.cuda()
 
 def get_dataloader(model, dataset):
@@ -51,8 +47,6 @@ def unfreeze_squeeze_excitation(m):
 def unfreeze_batch_norm(m):
     if type(m) == nn.BatchNorm1d:
         _apply_unfreeze(m)
-
-# def unfreeze_last_
 
 def freeze_model(model, params):
     if params['freeze']['encoder']:
