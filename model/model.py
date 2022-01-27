@@ -10,8 +10,9 @@ def load_config(path=CONFIG_PATH):
     return yaml.safe_load(open(path))
 
 def load_model(params, args):
-    if args.model:
+    if args and args.model:
         model = nemo_asr.models.EncDecRNNTBPEModel.restore_from(args.model)
+        params['exp_manager']['resume_if_exists'] = False # TODO : ?
     else:
         model = nemo_asr.models.EncDecRNNTBPEModel.from_pretrained(model_name=params['name'])
         model.change_vocabulary(params['model']['tokenizer']['dir'], params['model']['tokenizer']['type'])

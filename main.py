@@ -14,6 +14,7 @@ def train(args):
     model = load_model(params, args)
     trainer = pl.Trainer(**params['trainer'])
     exp_manager(trainer, params.get("exp_manager", None))
+    freeze_model(model, params)
     
     print("\n========== Start FIT")
     trainer.fit(model)
@@ -25,7 +26,7 @@ def train(args):
 def test(args):
     assert args.model, "You should load a model (-m option)"
     params = load_config()
-    model = load_model(params, args)
+    model = load_model(params, args).eval()
 
     if args.audio:
         predictions = model.transcribe(args.audio)
@@ -33,7 +34,14 @@ def test(args):
             print(f"# Fichier {audio}")
             print(pred)
     else:
-        for test_batch in model.test_dataloader():
+        ds = model.test_dataloader()
+        ds_size = len(ds)
+        print()
+        wer_error = nemo.collections.asr.metrics.rnnt_wer_bpe.RNNTBPEWER(
+            decoding=model.decoding, log_prediction=False)
+
+        for i_batch, test_batch in enumerate(ds):
+            print(f'\rBatch {i_batch+1}/{ds_size}', end=('\n' if args.verbose else ''))
             targets = test_batch[2]
             targets_lengths = test_batch[3]
             encoded, encoded_len = model.forward(
@@ -41,12 +49,17 @@ def test(args):
             )
             best_hyp, _ = model.decoding.rnnt_decoder_predictions_tensor(encoded, encoded_len)
 
-            for label_code, n, predicted in zip(targets, targets_lengths, best_hyp):
-                label = model.decoding.decode_tokens_to_str(label_code.numpy()[:n])
-                print("Label:", label)
-                print('-> Predicted:', predicted)
+            if args.verbose:
+                for label_code, n, predicted in zip(targets, targets_lengths, best_hyp):
+                    label = model.decoding.decode_tokens_to_str(label_code.numpy()[:n])
+                    print("Label:", label)
+                    print('-> Predicted:', predicted)
 
+            wer_error(encoded, encoded_len, targets, targets_lengths)
             del encoded, test_batch, best_hyp
+
+        wer = wer_error.compute()[0].item()
+        print(f"\n\nWER on test dataset: {wer*100:.3f}%")
 
 
 def get_args():
@@ -55,6 +68,7 @@ def get_args():
     parser.add_argument('-c', '--checkpoint', help='Load a checkpoint')
     parser.add_argument('-m', '--model', help='Load a model (.nemo)')
     parser.add_argument('-a', '--audio', nargs='+', default=[], help='Audio files that will be transcribed (test command)')
+    parser.add_argument('-v', '--verbose', action='store_true')
 
     return parser.parse_args()
 
