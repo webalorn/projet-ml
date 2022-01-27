@@ -1,6 +1,10 @@
-data/*
+data
 nemo_experiments
 lightning_logs
 __pycache__
 .ipynb_checkpoints
 pretrained
+*.mp3
+*.wav
+*.mkv
+*.srt
