@@ -36,7 +36,7 @@ def test(args):
                 print(f"# Fichier {audio}")
                 print(pred)
         else:
-            ds = model.test_dataloader()
+            ds = get_dataloader(model, args.dataset_test)
             ds_size = len(ds)
             print()
             wer_error = nemo.collections.asr.metrics.rnnt_wer_bpe.RNNTBPEWER(
@@ -61,19 +61,19 @@ def test(args):
                 del encoded, test_batch, best_hyp
 
             wer = wer_error.compute()[0].item()
-            print(f"\n\nWER on test dataset: {wer*100:.3f}%")
+            print(f"\n\nWER on test dataset: {wer*100:.2f}%")
 
 
 def get_args():
     parser = argparse.ArgumentParser(description='Process some integers.')
     parser.add_argument('command', choices=['train', 'test'])
-    parser.add_argument('-c', '--checkpoint', help='Load a checkpoint')
     parser.add_argument('-m', '--model', help='Load a model (.nemo)')
     parser.add_argument('-a', '--audio', nargs='+', default=[], help='Audio files that will be transcribed (test command)')
     parser.add_argument('-v', '--verbose', action='store_true')
+    parser.add_argument('-dt', '--dataset_test', choices=['train', 'val', 'test'], help='Dataset used with the set command', default='test')
 
     return parser.parse_args()
-
+ 
 if __name__ == "__main__":
     args = get_args()
     if args.command == 'train':
