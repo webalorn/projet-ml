@@ -26,27 +26,29 @@ def test(args):
     assert args.model, "You should load a model (-m option)"
     params = load_config()
     model = load_model(params, args)
+    model.eval()
 
-    if args.audio:
-        predictions = model.transcribe(args.audio)
-        for pred, audio in zip(predictions[0], args.audio):
-            print(f"# Fichier {audio}")
-            print(pred)
-    else:
-        for test_batch in model.test_dataloader():
-            targets = test_batch[2]
-            targets_lengths = test_batch[3]
-            encoded, encoded_len = model.forward(
-                input_signal=test_batch[0].cuda(), input_signal_length=test_batch[1].cuda()
-            )
-            best_hyp, _ = model.decoding.rnnt_decoder_predictions_tensor(encoded, encoded_len)
+    with torch.no_grad():
+        if args.audio:
+            predictions = model.transcribe(args.audio)
+            for pred, audio in zip(predictions[0], args.audio):
+                print(f"# Fichier {audio}")
+                print(pred)
+        else:
+            for test_batch in model.test_dataloader():
+                targets = test_batch[2]
+                targets_lengths = test_batch[3]
+                encoded, encoded_len = model.forward(
+                    input_signal=test_batch[0].cuda(), input_signal_length=test_batch[1].cuda()
+                )
+                best_hyp, _ = model.decoding.rnnt_decoder_predictions_tensor(encoded, encoded_len)
 
-            for label_code, n, predicted in zip(targets, targets_lengths, best_hyp):
-                label = model.decoding.decode_tokens_to_str(label_code.numpy()[:n])
-                print("Label:", label)
-                print('-> Predicted:', predicted)
+                for label_code, n, predicted in zip(targets, targets_lengths, best_hyp):
+                    label = model.decoding.decode_tokens_to_str(label_code.numpy()[:n])
+                    print("Label:", label)
+                    print('-> Predicted:', predicted)
 
-            del encoded, test_batch, best_hyp
+                del encoded, test_batch, best_hyp
 
 
 def get_args():

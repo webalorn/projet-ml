@@ -21,6 +21,8 @@ def load_model(params, args):
     model.setup_test_data(test_data_config=params['model']['test_ds'])
     model.setup_optimization(optim_config=params['model']['optim'])
 
+    freeze_model(model, params)
+
     # if args.checkpoint:
     #     model.load_from_checkpoint(args.checkpoint)
     #     params['exp_manager']['resume_if_exists'] = False
