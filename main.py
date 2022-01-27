@@ -36,7 +36,7 @@ def test(args):
                 print(f"# Fichier {audio}")
                 print(pred)
         else:
-            ds = model.test_dataloader()
+            ds = get_dataloader(model, args.dataset_test)
             ds_size = len(ds)
             print()
             wer_error = nemo.collections.asr.metrics.rnnt_wer_bpe.RNNTBPEWER(
@@ -60,8 +60,8 @@ def test(args):
                 wer_error(encoded, encoded_len, targets, targets_lengths)
                 del encoded, test_batch, best_hyp
 
-             wer = wer_error.compute()[0].item()
-            print(f"\n\nWER on test dataset: {wer*100:.3f}%")
+            wer = wer_error.compute()[0].item()
+            print(f"\n\nWER on test dataset: {wer*100:.2f}%")
 
 
 def get_args():
