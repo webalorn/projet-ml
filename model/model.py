@@ -22,7 +22,7 @@ def load_model(params, args):
     model.setup_test_data(test_data_config=params['model']['test_ds'])
     model.setup_optimization(optim_config=params['model']['optim'])
 
-    return model.cuda()
+    return model.cpu()#.cuda()
 
 def get_dataloader(model, dataset):
     if dataset == 'train':
